@@ -58,3 +58,35 @@ We feel that a welcoming community is important and we ask that you follow Twitt
 Copyright 2021 Twitter, Inc.
 
 Licensed under the Apache License, Version 2.0: https://www.apache.org/licenses/LICENSE-2.0
+
+## Content posting bot (SFW promo)
+
+`content_bot.py` schedules safe-for-work promotional posts from a reusable
+library. It is designed to run entirely inside this GitHub repo — no server and
+no paid API required.
+
+**How it works**
+
+- Posts live in [`content/posts.json`](content/posts.json). Edit that file to
+  add, remove, or rewrite posts — each entry has a `text` and a list of
+  `hashtags`.
+- The [`Daily Post`](.github/workflows/daily-post.yml) GitHub Action runs once a
+  day (16:00 UTC) and rotates through the library. You can also trigger it
+  manually from the **Actions** tab.
+- Each run writes the day's post to the workflow **job summary**, so you can
+  open the run, copy the text, and post it yourself — no X API access needed.
+- If you later obtain X API keys, add them as repository secrets
+  (`CONSUMER_KEY`, `CONSUMER_SECRET`, `ACCESS_TOKEN`, `ACCESS_TOKEN_SECRET`) and
+  the same workflow will post automatically.
+
+**Run it locally**
+
+```
+python content_bot.py            # prints today's post
+RANDOM_POST=1 python content_bot.py   # prints a random post
+```
+
+**Please keep it SFW.** X/Twitter's rules prohibit posting explicit material via
+the API. Posting adult content programmatically is one of the fastest ways to
+get an account and its API access suspended, so keep every entry in
+`content/posts.json` to teasers and "link in bio" calls to action only.
